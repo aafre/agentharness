@@ -21,8 +21,8 @@ classifiers = [
 dependencies = ["agentharness-core"]
 
 [project.urls]
-Homepage = "https://github.com/agentharness/agentharness"
-Source = "https://github.com/agentharness/agentharness"
+Homepage = "https://github.com/aafre/agentharness"
+Source = "https://github.com/aafre/agentharness"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/agentharness"]

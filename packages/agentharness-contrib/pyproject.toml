@@ -25,8 +25,8 @@ anthropic = ["anthropic>=0.40"]
 openai = ["openai>=1.40"]
 
 [project.urls]
-Homepage = "https://github.com/agentharness/agentharness"
-Source = "https://github.com/agentharness/agentharness"
+Homepage = "https://github.com/aafre/agentharness"
+Source = "https://github.com/aafre/agentharness"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/agentharness_contrib"]
