@@ -51,8 +51,18 @@ class _LivePerformer:
     def perform(self, effect: ModelRequest | ToolInvocation) -> Event:
         match effect:
             case ModelRequest():
-                schemas = tuple(t.schema for t in self._tools.values())
-                call_request = replace(effect, tools=schemas) if schemas else effect
+                # Pass provider-neutral tool descriptors (name + description + schema);
+                # each provider maps these to its own format. The recorded effect stays
+                # schema-free so replay still matches decide().
+                tool_defs = tuple(
+                    {
+                        "name": t.name,
+                        "description": getattr(t, "description", "") or "",
+                        "schema": dict(t.schema),
+                    }
+                    for t in self._tools.values()
+                )
+                call_request = replace(effect, tools=tool_defs) if tool_defs else effect
                 response = self._model.respond(call_request)
                 # Record the canonical (tools-free) effect so replay matches decide().
                 self.trace.append(effect, response)

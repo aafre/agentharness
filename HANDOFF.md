@@ -9,8 +9,8 @@
 
 All four sub-project success criteria are met, plus a Codex adversarial-review pass:
 
-- ✅ `uv run pytest` — **46 passed** (core: 32, ergonomic layer: 14)
-- ✅ `uv run mypy` — strict, clean (14 library source files across both packages)
+- ✅ `uv run pytest` — **51 passed** (core: 32, ergonomic: 14, contrib: 5)
+- ✅ `uv run mypy` — strict, clean (16 library source files across three packages)
 - ✅ `uv run ruff check` + `ruff format --check` — clean
 - ✅ `uv run python examples/quickstart.py` — record → save → replay reproduces identically
 - ✅ Zero third-party runtime deps in `agentharness-core`
@@ -48,10 +48,9 @@ docs/superpowers/specs/2026-06-24-agentharness-core-design.md
 
 ## Next step (single most useful thing)
 
-Core + ergonomic layer are done, green, committed. **Next: the docs site + cookbook**
-(make-or-break for adoption) and/or `agentharness-contrib` providers (Anthropic/OpenAI/
-Ollama) so it runs against live models. Then prep the first PyPI release (needs user
-approval) and a GitHub repo for market presence.
+Core + ergonomic layer + the first real provider are done, green, committed. **Next:
+the docs site + cookbook** (make-or-break for adoption), then OpenAI/Ollama providers,
+then prep the first PyPI release (needs user approval) and a GitHub repo for market presence.
 
 ### `agentharness` (ergonomic layer) — DONE
 - `@tool` decorator: JSON schema generated from type hints; tool stays directly callable.
@@ -59,6 +58,15 @@ approval) and a GitHub repo for market presence.
   optional system prompt; every run recorded + replayable.
 - `agentharness.testing`: `FakeModel` + `assert_used_tool`/`assert_answer`.
 - 14 tests; `examples/agent_quickstart.py` runs + replays identically.
+
+### `agentharness-contrib` (providers) — STARTED
+- `AnthropicModel` maps the core `Model` protocol onto Anthropic's Messages API
+  (default `claude-opus-4-8`); SDK is a lazy, optional extra (`[anthropic]`).
+- Pure SDK-free translation (`_split_messages`/`_to_anthropic_tool`/`_to_model_response`),
+  unit-tested with a fake client + a full run through the core loop — 5 tests, zero network.
+- Core change: the runner now injects neutral tool descriptors `{name, description, schema}`
+  into `ModelRequest.tools` (recorded effect stays schema-free, so replay is unaffected).
+- TODO: OpenAI (`[openai]`) + Ollama/OpenAI-compatible providers; common tools.
 
 ## Roadmap / backlog (ordered)
 

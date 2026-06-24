@@ -9,11 +9,13 @@ members = ["packages/*"]
 [tool.uv.sources]
 agentharness-core = { workspace = true }
 agentharness = { workspace = true }
+agentharness-contrib = { workspace = true }
 
 [dependency-groups]
 dev = [
     "agentharness-core",
     "agentharness",
+    "agentharness-contrib",
     "pytest>=8",
     "hypothesis>=6.100",
     "mypy>=1.10",
@@ -40,7 +42,16 @@ warn_unreachable = true
 disallow_any_explicit = false
 # Strict typing is the contract for the shipped library code. Tests are validated by
 # pytest + ruff; they intentionally exercise loose/edge typing that need not be strict.
-files = ["packages/agentharness-core/src", "packages/agentharness/src"]
+files = [
+    "packages/agentharness-core/src",
+    "packages/agentharness/src",
+    "packages/agentharness-contrib/src",
+]
+
+[[tool.mypy.overrides]]
+# Optional provider SDKs (installed only via extras) have no stubs in the dev env.
+module = ["anthropic", "anthropic.*", "openai", "openai.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["packages"]

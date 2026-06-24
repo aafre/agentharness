@@ -81,7 +81,7 @@ ergonomic surface evolves:
 
 - **`agentharness-core`** — the zero-dependency state machine, protocols, and record/replay. *(available)*
 - **`agentharness`** — the ergonomic layer: `Agent`, `@tool` schema generation, test helpers. *(available)*
-- **`agentharness-contrib`** — real providers (Anthropic, OpenAI, Ollama) behind optional extras. *(planned)*
+- **`agentharness-contrib`** — real providers behind optional extras: **Anthropic available**; OpenAI, Ollama planned.
 
 ```python
 from agentharness import Agent, tool
