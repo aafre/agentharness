@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentharness-core"
+version = "0.0.1"
+description = "Zero-dependency deterministic core for AgentHarness: an agent run as an inspectable, replayable state machine."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+authors = [{ name = "AgentHarness contributors" }]
+keywords = ["agent", "llm", "ai", "state-machine", "deterministic", "replay"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/agentharness/agentharness"
+Source = "https://github.com/agentharness/agentharness"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentharness_core"]

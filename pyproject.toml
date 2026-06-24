@@ -1,0 +1,45 @@
+[project]
+name = "agentharness-workspace"
+version = "0"
+requires-python = ">=3.12"
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+agentharness-core = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "agentharness-core",
+    "pytest>=8",
+    "hypothesis>=6.100",
+    "mypy>=1.10",
+    "ruff>=0.5",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# Test/example tools use class-level attrs to satisfy the Tool protocol; long literal
+# lines in tests aid readability over wrapping.
+"**/tests/**" = ["RUF012", "E501"]
+"examples/**" = ["RUF012"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+disallow_any_explicit = false
+# Strict typing is the contract for the shipped library code. Tests are validated by
+# pytest + ruff; they intentionally exercise loose/edge typing that need not be strict.
+files = ["packages/agentharness-core/src"]
+
+[tool.pytest.ini_options]
+testpaths = ["packages"]
+addopts = "-q"

@@ -1,0 +1,42 @@
+name: Release
+
+# Publishes agentharness-core to PyPI on a version tag, using PyPI Trusted Publishing
+# (OIDC) — no API tokens stored in the repo. Configure the trusted publisher once at
+# https://pypi.org/manage/account/publishing/ for project "agentharness-core".
+
+on:
+  push:
+    tags:
+      - "core-v*" # e.g. core-v0.1.0
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: re-verify before release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run ruff check
+      - run: uv run mypy
+      - run: uv run pytest -q
+
+  publish:
+    name: build + publish to PyPI
+    runs-on: ubuntu-latest
+    needs: [guard]
+    environment:
+      name: pypi
+      url: https://pypi.org/project/agentharness-core/
+    permissions:
+      id-token: write # required for Trusted Publishing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Build
+        run: uv build packages/agentharness-core
+      - name: Publish to PyPI
+        run: uv publish packages/agentharness-core/dist/*
