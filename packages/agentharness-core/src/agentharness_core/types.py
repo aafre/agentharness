@@ -7,6 +7,7 @@ behaviour beyond construction, equality, and (de)serialization, so a run is alwa
 
 from __future__ import annotations
 
+import copy
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Literal
@@ -22,6 +23,10 @@ class ToolCall:
     id: str
     name: str
     arguments: dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        # Own an isolated deep copy so a badly-behaved tool cannot mutate recorded state.
+        object.__setattr__(self, "arguments", copy.deepcopy(self.arguments))
 
 
 @dataclass(frozen=True, slots=True)
@@ -110,7 +115,7 @@ class State[CtxT]:
     def from_dict(cls, data: Mapping[str, Any]) -> State[Any]:
         from . import serde
 
-        obj = serde.decode(dict(data))
+        obj = serde.decode_as(State, dict(data))
         assert isinstance(obj, State)
         return obj
 

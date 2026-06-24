@@ -13,10 +13,19 @@ from pathlib import Path
 from typing import Any
 
 from . import serde
-from .effects import Effect
+from .effects import Effect, ModelRequest, ToolInvocation
 from .types import ModelResponse, ToolResult
 
 EffectResult = ModelResponse | ToolResult
+
+_EFFECT_KINDS: dict[str, type] = {
+    "ModelRequest": ModelRequest,
+    "ToolInvocation": ToolInvocation,
+}
+_RESULT_KINDS: dict[str, type] = {
+    "ModelResponse": ModelResponse,
+    "ToolResult": ToolResult,
+}
 
 
 class DivergenceError(Exception):
@@ -61,16 +70,23 @@ class Trace:
         return f"Trace({len(self._records)} records)"
 
     def save(self, path: str | Path) -> None:
-        """Write the trace as JSON Lines (one record per line)."""
+        """Write the trace as canonical JSON Lines (one record per line).
+
+        Keys are sorted and separators compact, so logically equal traces serialize to
+        byte-identical files regardless of dict construction order.
+        """
         import json
 
         lines = []
         for rec in self._records:
+            envelope = {
+                "effect_kind": type(rec.effect).__name__,
+                "effect": serde.encode(rec.effect),
+                "result_kind": type(rec.result).__name__,
+                "result": serde.encode(rec.result),
+            }
             lines.append(
-                json.dumps(
-                    {"effect": serde.encode(rec.effect), "result": serde.encode(rec.result)},
-                    ensure_ascii=False,
-                )
+                json.dumps(envelope, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
             )
         Path(path).write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
 
@@ -84,7 +100,7 @@ class Trace:
             if not line.strip():
                 continue
             raw = json.loads(line)
-            effect = serde.decode(raw["effect"])
-            result = serde.decode(raw["result"])
+            effect = serde.decode_as(_EFFECT_KINDS[raw["effect_kind"]], raw["effect"])
+            result = serde.decode_as(_RESULT_KINDS[raw["result_kind"]], raw["result"])
             records.append(TraceRecord(effect=effect, result=result))
         return cls(records)

@@ -67,11 +67,16 @@ def reduce[CtxT](state: State[CtxT], event: Event) -> State[CtxT]:
                 tool_call_id=call_id,
                 name=_tool_name_for(state, call_id),
             )
-            remaining = tuple(c for c in state.pending_calls if c.id != call_id)
+            # Resolve only the FIRST matching call, so duplicate ids each get handled.
+            remaining = list(state.pending_calls)
+            for index, pending in enumerate(remaining):
+                if pending.id == call_id:
+                    del remaining[index]
+                    break
             return replace(
                 state,
                 messages=(*state.messages, tool_msg),
-                pending_calls=remaining,
+                pending_calls=tuple(remaining),
             )
         case StepFinished(state=snapshot):
             return snapshot

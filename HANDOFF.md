@@ -3,17 +3,29 @@
 > Read `CLAUDE.md` first (the working agreement), then this file (what's actually done
 > and what's next). Update this file before every stop/handoff.
 
-**Last updated:** 2026-06-24
+**Last updated:** 2026-06-24 (post-hardening)
 
-## Current status: `agentharness-core` is implemented and green
+## Current status: `agentharness-core` implemented, hardened, and green
 
-All four sub-project success criteria are met:
+All four sub-project success criteria are met, plus a Codex adversarial-review pass:
 
-- ✅ `uv run pytest` — **24 passed** (includes the headline record/replay property test)
+- ✅ `uv run pytest` — **32 passed** (24 contract + 8 hardening; incl. record/replay property test)
 - ✅ `uv run mypy` — strict, clean (10 library source files)
-- ✅ `uv run ruff check` — clean
+- ✅ `uv run ruff check` + `ruff format --check` — clean
 - ✅ `uv run python examples/quickstart.py` — record → save → replay reproduces identically
 - ✅ Zero third-party runtime deps in `agentharness-core`
+
+### Hardening round (Codex `/codex:rescue` adversarial review → fixes)
+All 7 findings fixed, each with a regression test in `tests/test_hardening.py`:
+1. Tools get a deep copy of `arguments` — can't mutate recorded state/trace.
+2. `max_steps` reordered — a run finishing exactly at the limit now succeeds.
+3. Replay raises `DivergenceError` on leftover trace records (catches "stopped early").
+4. Serde is now **type-driven** (no in-band `__type__` tags) — tool JSON with any keys round-trips.
+5. Duplicate `tool_call.id`s each resolve (remove first-by-position, not all-by-id).
+6. Trace JSON is canonical (`sort_keys`, compact separators) — byte-stable.
+7. `Run`/`AsyncRun` documented + implemented as one-shot iterators (`__iter__`→self, `__next__`).
+
+Codex review artifacts: `docs/codex-task-hardening.md` (the fix brief).
 
 ### What exists
 
@@ -36,8 +48,9 @@ docs/superpowers/specs/2026-06-24-agentharness-core-design.md
 
 ## Next step (single most useful thing)
 
-**Initial git commit of the working core**, then choose the next sub-project. The repo is
-green and ready to commit.
+Core is hardened and committed. **Next sub-project: the ergonomic `agentharness` layer**
+(Agent wrapper, `@tool` JSON-schema generation from type hints, pytest assertion plugin) —
+OR the docs site. Brainstorm → spec → plan before building (see roadmap).
 
 ## Roadmap / backlog (ordered)
 
