@@ -8,10 +8,12 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 agentharness-core = { workspace = true }
+agentharness = { workspace = true }
 
 [dependency-groups]
 dev = [
     "agentharness-core",
+    "agentharness",
     "pytest>=8",
     "hypothesis>=6.100",
     "mypy>=1.10",
@@ -38,7 +40,7 @@ warn_unreachable = true
 disallow_any_explicit = false
 # Strict typing is the contract for the shipped library code. Tests are validated by
 # pytest + ruff; they intentionally exercise loose/edge typing that need not be strict.
-files = ["packages/agentharness-core/src"]
+files = ["packages/agentharness-core/src", "packages/agentharness/src"]
 
 [tool.pytest.ini_options]
 testpaths = ["packages"]

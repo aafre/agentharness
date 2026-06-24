@@ -9,8 +9,8 @@
 
 All four sub-project success criteria are met, plus a Codex adversarial-review pass:
 
-- ✅ `uv run pytest` — **32 passed** (24 contract + 8 hardening; incl. record/replay property test)
-- ✅ `uv run mypy` — strict, clean (10 library source files)
+- ✅ `uv run pytest` — **46 passed** (core: 32, ergonomic layer: 14)
+- ✅ `uv run mypy` — strict, clean (14 library source files across both packages)
 - ✅ `uv run ruff check` + `ruff format --check` — clean
 - ✅ `uv run python examples/quickstart.py` — record → save → replay reproduces identically
 - ✅ Zero third-party runtime deps in `agentharness-core`
@@ -48,9 +48,17 @@ docs/superpowers/specs/2026-06-24-agentharness-core-design.md
 
 ## Next step (single most useful thing)
 
-Core is hardened and committed. **Next sub-project: the ergonomic `agentharness` layer**
-(Agent wrapper, `@tool` JSON-schema generation from type hints, pytest assertion plugin) —
-OR the docs site. Brainstorm → spec → plan before building (see roadmap).
+Core + ergonomic layer are done, green, committed. **Next: the docs site + cookbook**
+(make-or-break for adoption) and/or `agentharness-contrib` providers (Anthropic/OpenAI/
+Ollama) so it runs against live models. Then prep the first PyPI release (needs user
+approval) and a GitHub repo for market presence.
+
+### `agentharness` (ergonomic layer) — DONE
+- `@tool` decorator: JSON schema generated from type hints; tool stays directly callable.
+- `Agent`: `run()` (eager), `stream()` (live events), `arun()`/`astream()` (async);
+  optional system prompt; every run recorded + replayable.
+- `agentharness.testing`: `FakeModel` + `assert_used_tool`/`assert_answer`.
+- 14 tests; `examples/agent_quickstart.py` runs + replays identically.
 
 ## Roadmap / backlog (ordered)
 

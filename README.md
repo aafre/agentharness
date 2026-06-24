@@ -79,9 +79,21 @@ See [`examples/quickstart.py`](examples/quickstart.py) for the full runnable ver
 AgentHarness is layered so the foundation can stay frozen for decades while the
 ergonomic surface evolves:
 
-- **`agentharness-core`** — the zero-dependency state machine, protocols, and record/replay. *(this package, available now)*
-- **`agentharness`** — the ergonomic layer: `Agent`, `@tool` schema generation, pytest helpers. *(planned)*
+- **`agentharness-core`** — the zero-dependency state machine, protocols, and record/replay. *(available)*
+- **`agentharness`** — the ergonomic layer: `Agent`, `@tool` schema generation, test helpers. *(available)*
 - **`agentharness-contrib`** — real providers (Anthropic, OpenAI, Ollama) behind optional extras. *(planned)*
+
+```python
+from agentharness import Agent, tool
+
+@tool
+def add(a: int, b: int) -> str:
+    """Add two numbers."""        # schema generated from type hints
+    return str(a + b)
+
+agent = Agent(model=my_model, tools=[add], system="You are helpful.")
+print(agent.run("What is 2 + 3?").result)
+```
 
 ## Status
 
