@@ -3,7 +3,7 @@
 > Read `CLAUDE.md` first (the working agreement), then this file (what's actually done
 > and what's next). Update this file before every stop/handoff.
 
-**Last updated:** 2026-06-25 (all 3 packages live on PyPI: core, sdk, contrib — 0.1.0)
+**Last updated:** 2026-06-25 (all 3 pkgs live; launch post ready; OPEN: positioning fork)
 
 ## Adoption switches
 
@@ -112,11 +112,42 @@ docs/                         # mkdocs-material site, cookbook, llms.txt
 
 ## Next step (single most useful thing)
 
-Core + ergonomic layer + three providers (Anthropic, OpenAI, Ollama) are done; core is live
-on PyPI; docs site + cookbook are live. **Next:** the launch/announcement post (the prior
-`launch-draft.md` lived in an old session scratchpad and is gone — recreate it). After that:
-common contrib tools, then bump `agentharness`/`agentharness-contrib` for their own PyPI
-releases.
+Everything is built and shipped: **all three packages live on PyPI** (`agentharness-core`,
+`agentharness-sdk`, `agentharness-contrib`, all 0.1.0), docs + cookbook live, README now has an
+Install section, `main` pushed (HEAD `622bf1c`). The launch post is written and ready
+(scratchpad `launch-draft.md`, 3 variants).
+
+**The single most useful next thing is a DECISION, not code — see "Positioning fork" below.**
+It determines whether the production-readiness gaps are a roadmap or a non-goal. After that:
+post the launch, then (per the chosen positioning) either harden the runtime or sharpen the
+"testing/replay harness" framing. `agentharness-contrib` "common tools" remains a small open TODO.
+
+## Positioning fork (OPEN DECISION — raised 2026-06-25, not yet answered)
+
+The user asked, fairly: "still far from usable in production?" Code-grounded answer (read
+`run.py`): the **determinism/replay core is genuinely usable for its claim** (testing,
+inspection, replay; tool errors are caught at `run.py:78`). As a **production *runtime* it's
+alpha** — concrete gaps found in the code, NOT speculation:
+- **Model calls have no retry/timeout/error handling** — `run.py:66` is a bare `respond()`;
+  a rate-limit/network error propagates and kills the run (no `RunFailed` path for it; only
+  `max_steps` produces one).
+- **Async is a facade** — `AsyncRun.__anext__` (`run.py:260`) calls the *sync* `step()`; the
+  docstring admits no real async I/O. Real async provider calls would block the loop.
+- **No streaming** (providers do one blocking `respond()`); **tools run sequentially** (one
+  effect per step, no parallel tool calls); **no durability/resume** (trace is in-memory until
+  `.save()`; a crash mid-run loses it); **providers are thin MVP mappings** (text + tool_use,
+  zero real-network tests); **observability is DIY** (no OTel/metrics/cost-budget).
+
+**The fork the user must pick (drives the entire roadmap):**
+1. **Testing/replay harness that wraps the user's existing agent stack** — then it's much
+   closer to usable; production concerns (retries, streaming, durability) belong to the
+   runtime they already have. Smaller scope, and IS the differentiator. *(Claude's recommendation.)*
+2. **A production runtime you run agents on** — then it's far off: retries, real async,
+   streaming, durability, observability = multi-month slog into a crowded field (LangGraph,
+   Temporal, etc.), and dilutes the replay moat.
+
+Note: external/Gemini "deep research" is NOT needed to find the gaps (done from the code in
+minutes); it would only help for competitive *positioning* before launch messaging — optional.
 
 ### `agentharness` (ergonomic layer) — DONE
 - `@tool` decorator: JSON schema generated from type hints; tool stays directly callable.
