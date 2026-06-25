@@ -1,4 +1,5 @@
 site_name: AgentHarness
+site_description: AgentHarness is a Python agent harness built around deterministic state machines, inspectable event streams, and offline replay.
 site_url: https://aafre.github.io/agentharness/
 repo_url: https://github.com/aafre/agentharness
 repo_name: aafre/agentharness
@@ -57,9 +58,41 @@ plugins:
             show_source: true
             show_signature: true
             show_signature_annotations: true
-
-hooks:
-  - scripts/build_llms_full.py
+  - llmstxt:
+      full_output: llms-full.txt
+      sections:
+        Home:
+          - index.md: pitch, 30-second why, and a FakeModel quickstart.
+        Getting started:
+          - getting-started/install.md: install targets, source workflow, and optional provider extras.
+          - getting-started/first-run.md: FakeModel, State.start, run, event iteration, and result inspection.
+          - getting-started/record-replay.md: save a trace, replay offline, and understand DivergenceError.
+        Core concepts:
+          - concepts/thesis.md: decide, perform, reduce, and why purity buys production properties.
+          - concepts/state-and-events.md: immutable data algebra and JSON round-trips.
+          - concepts/effects-and-runner.md: where impure work happens and what gets recorded.
+          - concepts/determinism-kit.md: seeds, scripted choices, pure reducers, and trace replay.
+        Cookbook:
+          - cookbook/index.md: recipes for common agent workflow tasks.
+          - cookbook/unit-test-agent.md: deterministic tests with FakeModel and trace assertions.
+          - cookbook/record-replay-offline.md: capture and replay a trace with no provider calls.
+          - cookbook/catch-regression.md: compare traces and find behavior drift.
+          - cookbook/define-tool.md: expose typed Python callables as agent tools.
+          - cookbook/multi-step-tool-use.md: run chained tool calls through the core loop.
+          - cookbook/inspect-event-log.md: inspect model, tool, and state events.
+          - cookbook/swap-providers.md: switch between FakeModel, Anthropic, and OpenAI-compatible models.
+          - cookbook/run-async.md: run async tools and async agents.
+          - cookbook/persist-diff-traces.md: persist JSONL traces and diff them.
+          - cookbook/bring-your-own-model.md: implement the Model protocol for another provider.
+        Providers:
+          - providers/anthropic.md: Anthropic model adapter and optional dependency setup.
+        Guides:
+          - guides/testing-agents.md: testing patterns for reducers, traces, tools, and providers.
+          - guides/tools.md: "@tool decorator, schemas, and execution behavior."
+        Reference:
+          - reference/core.md: mkdocstrings reference for agentharness_core.
+          - reference/agentharness.md: mkdocstrings reference for agentharness.
+          - reference/contrib.md: mkdocstrings reference for agentharness_contrib.
 
 nav:
   - Home: index.md

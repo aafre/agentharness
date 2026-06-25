@@ -24,6 +24,7 @@ dev = [
 docs = [
     "markdown-exec>=1.11",
     "mkdocs-material>=9.5",
+    "mkdocs-llmstxt>=0.5",
     "mkdocstrings[python]>=0.25",
     "pymdown-extensions>=10.8",
 ]
