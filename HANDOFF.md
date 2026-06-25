@@ -5,18 +5,15 @@
 
 **Last updated:** 2026-06-25 (docs site live in repo; ponytail cleanup; CI green)
 
-## TWO USER-GATED SWITCHES = the only things blocking adoption (do these next)
+## Adoption switches
 
-Everything engineering is done and green. The two remaining steps are the user's because
-both are irreversible:
-
-1. **Enable GitHub Pages** (zero risk): repo Settings → Pages → Source = **GitHub Actions**.
-   The `docs-deploy.yml` workflow is wired and currently fails ONLY at the "Configure Pages"
-   step because this setting is off. Once on, it publishes to
-   https://aafre.github.io/agentharness/ on the next push (or re-run the workflow).
-2. **Publish v0.1 to PyPI** (irreversible — needs explicit user "publish"): Trusted
+1. ✅ **GitHub Pages — DONE (2026-06-25).** Docs are LIVE and public at
+   **https://aafre.github.io/agentharness/** (home, cookbook, and llms.txt all serve 200).
+   `docs-deploy.yml` redeploys on every push to `main`.
+2. ⏳ **Publish v0.1 to PyPI** (irreversible — needs explicit user "publish"): Trusted
    Publishing is wired in `release.yml`; tag `core-v0.1.0` triggers it. Do NOT tag/publish
-   without the user's explicit go-ahead (name + version are permanent).
+   without the user's explicit go-ahead (name + version are permanent). This is the one
+   remaining switch.
 
 After those: launch surface (conversion-focused README + r/Python / HN post), then
 OpenAI/Ollama providers.
