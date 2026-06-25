@@ -52,7 +52,7 @@ plugins:
         python:
           paths:
             - packages/agentharness-core/src
-            - packages/agentharness/src
+            - packages/agentharness-sdk/src
             - packages/agentharness-contrib/src
           options:
             show_source: true

@@ -24,21 +24,29 @@
    `core-v*`). Per release: bump both version locations (`pyproject.toml` + `__init__.py`),
    green gate, commit to `main`, push the tag.
 
-3. 🔜 **Publish `agentharness` + `agentharness-contrib` v0.1.0 — PREPPED, awaiting tags.**
-   Both bumped to `0.1.0` (pyproject + `__init__`), both depend on `agentharness-core>=0.1.0`
-   (verified in built wheel metadata; workspace override does not leak). The generalized
-   `release.yml` will publish them. **User action required before tagging:**
-   - Register a PyPI Trusted Publisher for **each** new project at
-     https://pypi.org/manage/account/publishing/ → owner `aafre`, repo `agentharness`,
-     workflow `release.yml`, environment `pypi` (same as core, just new project names
-     `agentharness` and `agentharness-contrib`).
-   - Then push the tags (user pushes; classifier blocks Claude on default branch):
-     `git tag agentharness-v0.1.0 && git tag agentharness-contrib-v0.1.0 && git push --tags`
-   - Order doesn't matter for resolution (both only need core, already live), but publish
-     `agentharness` and `agentharness-contrib` either order.
+3. ✅ **`agentharness-contrib 0.1.0` — PUBLISHED (2026-06-25).** Live on PyPI via tag
+   `agentharness-contrib-v0.1.0`; pending publisher was already registered.
 
-   Next up: launch post (recreated in scratchpad `launch-draft.md`, 3 variants) — its pip
-   lines assume all three are live, so post AFTER these two publish.
+4. 🔜 **`agentharness-sdk 0.1.0` (the ergonomic layer) — PREPPED, awaiting publish.**
+   **Name story:** the bare `agentharness` dist is BLOCKED by PyPI's similarity guard
+   (too similar to `agentharness-core`/`-contrib`) — confirmed against both a Trusted-Publishing
+   upload AND an owner token upload; the guard does NOT exempt owners. So the ergonomic layer's
+   **distribution** name is now **`agentharness-sdk`** while the **import** name stays
+   `agentharness` (`pip install agentharness-sdk` → `from agentharness import Agent`, like
+   scikit-learn → sklearn). Package dir renamed `packages/agentharness` → `packages/agentharness-sdk`.
+   Built wheel: Name `agentharness-sdk`, ships `agentharness/` import pkg, deps `agentharness-core>=0.1.0`.
+   - **User action before tagging:** register a pending PyPI Trusted Publisher for project
+     **`agentharness-sdk`** at https://pypi.org/manage/account/publishing/ (owner `aafre`,
+     repo `agentharness`, workflow `release.yml`, env `pypi`). Pending publishers CAN create
+     new projects (that's how core/contrib were born), so NO token/manual upload needed.
+   - Then push the tag: `git tag agentharness-sdk-v0.1.0 && git push origin agentharness-sdk-v0.1.0`.
+   - Cleanup: the earlier failed `agentharness-v0.1.0` tag is orphaned —
+     `git push origin :refs/tags/agentharness-v0.1.0 && git tag -d agentharness-v0.1.0`.
+   - OPTIONAL: still want the bare `agentharness` name? Request it from PyPI admins
+     (draft at scratchpad `pypi-name-request.md`); not blocking.
+
+   Next up: launch post (recreated in scratchpad `launch-draft.md`, 3 variants) — update its
+   install line to `pip install agentharness-sdk`; post AFTER the sdk publishes.
 
 ## Live: public on GitHub, CI green
 

@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agentharness"
+name = "agentharness-sdk"
 version = "0.1.0"
-description = "Ergonomic agent harness on top of agentharness-core: Agent, @tool, and testable, replayable runs."
+description = "Ergonomic agent harness on top of agentharness-core: Agent, @tool, and testable, replayable runs. Imports as `agentharness`."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"

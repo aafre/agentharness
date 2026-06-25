@@ -5,7 +5,7 @@ name: Release
 #
 # Tag scheme:  <package-name>-v<version>   (the prefix IS the package dir under packages/)
 #   agentharness-core-v0.1.0      -> packages/agentharness-core
-#   agentharness-v0.1.0           -> packages/agentharness
+#   agentharness-sdk-v0.1.0       -> packages/agentharness-sdk   (imports as `agentharness`)
 #   agentharness-contrib-v0.1.0   -> packages/agentharness-contrib
 #
 # One-time setup per project at https://pypi.org/manage/account/publishing/ :

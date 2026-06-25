@@ -8,13 +8,13 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 agentharness-core = { workspace = true }
-agentharness = { workspace = true }
+agentharness-sdk = { workspace = true }
 agentharness-contrib = { workspace = true }
 
 [dependency-groups]
 dev = [
     "agentharness-core",
-    "agentharness",
+    "agentharness-sdk",
     "agentharness-contrib",
     "pytest>=8",
     "hypothesis>=6.100",
@@ -51,7 +51,7 @@ disallow_any_explicit = false
 # pytest + ruff; they intentionally exercise loose/edge typing that need not be strict.
 files = [
     "packages/agentharness-core/src",
-    "packages/agentharness/src",
+    "packages/agentharness-sdk/src",
     "packages/agentharness-contrib/src",
 ]
 

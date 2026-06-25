@@ -8,22 +8,11 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "agentharness",
     "agentharness-contrib",
     "agentharness-core",
+    "agentharness-sdk",
     "agentharness-workspace",
 ]
-
-[[package]]
-name = "agentharness"
-version = "0.1.0"
-source = { editable = "packages/agentharness" }
-dependencies = [
-    { name = "agentharness-core" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "agentharness-core", editable = "packages/agentharness-core" }]
 
 [[package]]
 name = "agentharness-contrib"
@@ -55,15 +44,26 @@ version = "0.1.0"
 source = { editable = "packages/agentharness-core" }
 
 [[package]]
+name = "agentharness-sdk"
+version = "0.1.0"
+source = { editable = "packages/agentharness-sdk" }
+dependencies = [
+    { name = "agentharness-core" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "agentharness-core", editable = "packages/agentharness-core" }]
+
+[[package]]
 name = "agentharness-workspace"
 version = "0"
 source = { virtual = "." }
 
 [package.dev-dependencies]
 dev = [
-    { name = "agentharness" },
     { name = "agentharness-contrib" },
     { name = "agentharness-core" },
+    { name = "agentharness-sdk" },
     { name = "hypothesis" },
     { name = "mypy" },
     { name = "pytest" },
@@ -81,9 +81,9 @@ docs = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "agentharness", editable = "packages/agentharness" },
     { name = "agentharness-contrib", editable = "packages/agentharness-contrib" },
     { name = "agentharness-core", editable = "packages/agentharness-core" },
+    { name = "agentharness-sdk", editable = "packages/agentharness-sdk" },
     { name = "hypothesis", specifier = ">=6.100" },
     { name = "mypy", specifier = ">=1.10" },
     { name = "pytest", specifier = ">=8" },
