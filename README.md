@@ -43,6 +43,17 @@ that are normally hard become free:
 | **Replay** | re-feed the recorded effects — no model, no tools, byte-identical |
 | **Sync *and* async** | the core never does I/O; only the runner does |
 
+## Install
+
+```bash
+pip install agentharness-sdk                 # most users: Agent, @tool, run/replay (imports as `agentharness`)
+pip install agentharness-core                # just the zero-dependency kernel
+pip install "agentharness-contrib[openai]"   # real providers — also [anthropic]; Ollama uses [openai]
+```
+
+> The convenience layer installs as **`agentharness-sdk`** but imports as **`agentharness`**
+> (`from agentharness import Agent`), the same way `scikit-learn` imports as `sklearn`.
+
 ## Quickstart
 
 ```python
