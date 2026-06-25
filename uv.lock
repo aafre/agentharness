@@ -16,7 +16,7 @@ members = [
 
 [[package]]
 name = "agentharness"
-version = "0.0.1"
+version = "0.1.0"
 source = { editable = "packages/agentharness" }
 dependencies = [
     { name = "agentharness-core" },
@@ -27,7 +27,7 @@ requires-dist = [{ name = "agentharness-core", editable = "packages/agentharness
 
 [[package]]
 name = "agentharness-contrib"
-version = "0.0.1"
+version = "0.1.0"
 source = { editable = "packages/agentharness-contrib" }
 dependencies = [
     { name = "agentharness-core" },

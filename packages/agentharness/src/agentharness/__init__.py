@@ -36,7 +36,7 @@ from agentharness_core import (
 from .agent import Agent
 from .tools import FunctionTool, tool
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 
 __all__ = [  # noqa: RUF022 - grouped by concept
     # ergonomic layer

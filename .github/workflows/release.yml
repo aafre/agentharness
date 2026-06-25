@@ -1,13 +1,20 @@
 name: Release
 
-# Publishes agentharness-core to PyPI on a version tag, using PyPI Trusted Publishing
-# (OIDC) — no API tokens stored in the repo. Configure the trusted publisher once at
-# https://pypi.org/manage/account/publishing/ for project "agentharness-core".
+# Publishes any workspace package to PyPI on a version tag, using PyPI Trusted
+# Publishing (OIDC) — no API tokens stored in the repo.
+#
+# Tag scheme:  <package-name>-v<version>   (the prefix IS the package dir under packages/)
+#   agentharness-core-v0.1.0      -> packages/agentharness-core
+#   agentharness-v0.1.0           -> packages/agentharness
+#   agentharness-contrib-v0.1.0   -> packages/agentharness-contrib
+#
+# One-time setup per project at https://pypi.org/manage/account/publishing/ :
+#   owner aafre, repo agentharness, workflow release.yml, environment pypi.
 
 on:
   push:
     tags:
-      - "core-v*" # e.g. core-v0.1.0
+      - "agentharness*-v*"
 
 permissions:
   contents: read
@@ -30,15 +37,17 @@ jobs:
     needs: [guard]
     environment:
       name: pypi
-      url: https://pypi.org/project/agentharness-core/
     permissions:
       id-token: write # required for Trusted Publishing
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
+      - name: Resolve package from tag
+        # Tag is "<package-name>-v<version>"; strip the trailing "-v<version>".
+        run: echo "PKG=${GITHUB_REF_NAME%-v*}" >> "$GITHUB_ENV"
       - name: Build
         # In a uv workspace, `uv build <path>` defaults to the workspace-root dist/.
-        # Pin the output dir so the publish step below finds the artifacts.
-        run: uv build packages/agentharness-core -o packages/agentharness-core/dist
+        # Pin the output dir so the publish step finds the artifacts.
+        run: uv build "packages/$PKG" -o "packages/$PKG/dist"
       - name: Publish to PyPI
-        run: uv publish packages/agentharness-core/dist/*
+        run: uv publish "packages/$PKG"/dist/*

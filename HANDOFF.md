@@ -18,11 +18,27 @@
    `aafre`, repo `agentharness`, workflow `release.yml`, env `pypi`) is now configured by the
    user and is an ordinary trusted publisher for the project.
 
-   Next release = bump both version locations, green gate, commit to `main`, push tag
-   `core-v0.X.Y`. No PyPI setup needed again.
+   **Tag scheme changed (2026-06-25):** `release.yml` is now generalized to publish ANY
+   workspace package, triggered by tag `<package-name>-v<version>` (the prefix is the dir
+   under `packages/`). So future core releases use `agentharness-core-v0.X.Y` (NOT the old
+   `core-v*`). Per release: bump both version locations (`pyproject.toml` + `__init__.py`),
+   green gate, commit to `main`, push the tag.
 
-   Next up: launch post (drafted in scratchpad `launch-draft.md` — links assume live docs +
-   working pip) → then OpenAI/Ollama providers.
+3. 🔜 **Publish `agentharness` + `agentharness-contrib` v0.1.0 — PREPPED, awaiting tags.**
+   Both bumped to `0.1.0` (pyproject + `__init__`), both depend on `agentharness-core>=0.1.0`
+   (verified in built wheel metadata; workspace override does not leak). The generalized
+   `release.yml` will publish them. **User action required before tagging:**
+   - Register a PyPI Trusted Publisher for **each** new project at
+     https://pypi.org/manage/account/publishing/ → owner `aafre`, repo `agentharness`,
+     workflow `release.yml`, environment `pypi` (same as core, just new project names
+     `agentharness` and `agentharness-contrib`).
+   - Then push the tags (user pushes; classifier blocks Claude on default branch):
+     `git tag agentharness-v0.1.0 && git tag agentharness-contrib-v0.1.0 && git push --tags`
+   - Order doesn't matter for resolution (both only need core, already live), but publish
+     `agentharness` and `agentharness-contrib` either order.
+
+   Next up: launch post (recreated in scratchpad `launch-draft.md`, 3 variants) — its pip
+   lines assume all three are live, so post AFTER these two publish.
 
 ## Live: public on GitHub, CI green
 

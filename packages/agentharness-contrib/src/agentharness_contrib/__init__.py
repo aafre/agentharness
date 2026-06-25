@@ -15,6 +15,6 @@ from __future__ import annotations
 from .anthropic_provider import AnthropicModel
 from .openai_provider import OllamaModel, OpenAIModel
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 
 __all__ = ["AnthropicModel", "OllamaModel", "OpenAIModel", "__version__"]
