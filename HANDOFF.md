@@ -10,30 +10,19 @@
 1. ✅ **GitHub Pages — DONE (2026-06-25).** Docs are LIVE and public at
    **https://aafre.github.io/agentharness/** (home, cookbook, and llms.txt all serve 200).
    `docs-deploy.yml` redeploys on every push to `main`.
-2. ▶️ **Publish v0.1 to PyPI — USER AUTHORIZED (2026-06-25). NEXT AGENT: DO THIS.**
-   The user said "yes, publish" and asked to hand the execution to the next agent. Steps
-   (irreversible — name + version `0.1.0` are permanent once the tag lands):
+2. ✅ **Publish v0.1 to PyPI — DONE (2026-06-25).** `agentharness-core 0.1.0` is LIVE at
+   **https://pypi.org/project/agentharness-core/**; `pip install agentharness-core` installs
+   and imports (`__version__== "0.1.0"`), verified in a clean env. Version bump `0.0.1`→`0.1.0`
+   is on `main` (commit `9e841ba`), tag `core-v0.1.0` pushed, `release.yml` green (guard +
+   build + Trusted Publishing upload). The PyPI Trusted Publisher (pending publisher: owner
+   `aafre`, repo `agentharness`, workflow `release.yml`, env `pypi`) is now configured by the
+   user and is an ordinary trusted publisher for the project.
 
-   **Prerequisite (one-time, on PyPI — likely the USER, not the agent):** a Trusted
-   Publisher for project `agentharness-core` must exist at
-   https://pypi.org/manage/account/publishing/ — owner `aafre`, repo `agentharness`,
-   workflow `release.yml`, environment `pypi`. If it isn't configured, the publish job
-   fails at the OIDC step; ask the user to add it before tagging.
+   Next release = bump both version locations, green gate, commit to `main`, push tag
+   `core-v0.X.Y`. No PyPI setup needed again.
 
-   **Execution:**
-   1. Bump version `0.0.1` → `0.1.0` in BOTH:
-      - `packages/agentharness-core/pyproject.toml:7`
-      - `packages/agentharness-core/src/agentharness_core/__init__.py:46` (`__version__`)
-   2. Green gate: `uv run ruff check && uv run mypy && uv run pytest -q` (must pass).
-   3. Commit (e.g. "Release agentharness-core 0.1.0") and push to `main`.
-   4. Tag and push: `git tag core-v0.1.0 && git push origin core-v0.1.0` → fires
-      `release.yml` (guard re-runs the gate, then Trusted Publishing uploads).
-   5. Watch the run: `gh run watch <id> --repo aafre/agentharness --exit-status`.
-   6. Verify: package at https://pypi.org/project/agentharness-core/ and
-      `pip install agentharness-core` works in a clean venv.
-
-   After this: launch post (drafted, in this session's scratchpad `launch-draft.md` — links
-   assume live docs + working pip) → then OpenAI/Ollama providers.
+   Next up: launch post (drafted in scratchpad `launch-draft.md` — links assume live docs +
+   working pip) → then OpenAI/Ollama providers.
 
 ## Live: public on GitHub, CI green
 
