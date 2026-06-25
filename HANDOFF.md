@@ -3,12 +3,14 @@
 > Read `CLAUDE.md` first (the working agreement), then this file (what's actually done
 > and what's next). Update this file before every stop/handoff.
 
-**Last updated:** 2026-06-25 (public repo + CI green)
+**Last updated:** 2026-06-25 (docs site + cookbook implemented)
 
 ## Live: public on GitHub, CI green
 
 - Repo: **https://github.com/aafre/agentharness** (public, default branch `main`).
 - Full history pushed (6 commits). **Not** published to PyPI yet (awaiting explicit approval).
+- Docs site + cookbook are implemented for **https://aafre.github.io/agentharness/**.
+  One-time manual step: enable GitHub Pages with source = GitHub Actions in repo settings.
 - GitHub Actions CI is **green** on the full matrix (3.12/3.13 × Linux/macOS/Windows)
   plus `build distributions`. Fixed in `2ef44e1`: in a uv workspace `uv build <path>`
   writes to the workspace-root `dist/`, so both `ci.yml` and `release.yml` now pin
@@ -54,14 +56,15 @@ packages/agentharness-core/src/agentharness_core/
 packages/agentharness-core/tests/   # contract tests: types, kernel, run, replay
 examples/quickstart.py
 docs/superpowers/specs/2026-06-24-agentharness-core-design.md
-.github/workflows/ci.yml, release.yml
+docs/                         # mkdocs-material site, cookbook, llms.txt
+.github/workflows/ci.yml, release.yml, docs-deploy.yml
 ```
 
 ## Next step (single most useful thing)
 
-Core + ergonomic layer + the first real provider are done, green, committed. **Next:
-the docs site + cookbook** (make-or-break for adoption), then OpenAI/Ollama providers,
-then prep the first PyPI release (needs user approval) and a GitHub repo for market presence.
+Core + ergonomic layer + the first real provider are done, and the docs site + cookbook are
+implemented. **Next:** enable GitHub Pages in repo settings, then build OpenAI/Ollama
+providers, then prep the first PyPI release (needs user approval).
 
 ### `agentharness` (ergonomic layer) — DONE
 - `@tool` decorator: JSON schema generated from type hints; tool stays directly callable.
@@ -82,9 +85,9 @@ then prep the first PyPI release (needs user approval) and a GitHub repo for mar
 ## Roadmap / backlog (ordered)
 
 1. **Commit** the current green state. *(immediate)*
-2. **Docs + cookbook** — the user flagged docs/tutorials as make-or-break for adoption.
-   Build a docs site (Mintlify or mkdocs-material), a cookbook of cases, and an `llms.txt`
-   so agents can consume the docs. Spec it via brainstorming → writing-plans first.
+2. **Docs + cookbook** — DONE. MkDocs Material site, ten executed FakeModel cookbook
+   recipes, `llms.txt`, generated `llms-full.txt`, docs CI, and separate Pages deploy
+   workflow. Manual remaining step: enable GitHub Pages with source = GitHub Actions.
 3. **`agentharness` ergonomic layer** — `Agent` wrapper, `@tool` JSON-schema generation
    from type hints, a pytest plugin with assertion helpers (`assert_called_tool`, etc.).
 4. **`agentharness-contrib`** — Anthropic, OpenAI, Ollama/OpenAI-compatible providers,

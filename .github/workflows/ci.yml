@@ -59,10 +59,26 @@ jobs:
       - name: Run the quickstart example (smoke)
         run: uv run python examples/quickstart.py
 
+  docs:
+    name: docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Set up Python 3.12
+        run: uv python install 3.12
+      - name: Sync docs dependencies
+        run: uv sync --python 3.12 --group docs
+      - name: Build docs
+        run: uv run mkdocs build --strict
+
   build:
     name: build distributions
     runs-on: ubuntu-latest
-    needs: [quality, test]
+    needs: [quality, test, docs]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv

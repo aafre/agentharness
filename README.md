@@ -5,8 +5,11 @@
 **Your AI agent is a deterministic, inspectable, replayable state machine — not a black box you pray over.**
 
 [![CI](https://github.com/aafre/agentharness/actions/workflows/ci.yml/badge.svg)](https://github.com/aafre/agentharness/actions/workflows/ci.yml)
+[![Docs](https://github.com/aafre/agentharness/actions/workflows/docs-deploy.yml/badge.svg)](https://aafre.github.io/agentharness/)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+
+[Documentation](https://aafre.github.io/agentharness/)
 
 </div>
 

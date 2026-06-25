@@ -15,6 +15,9 @@ venv/
 # uv
 .uv/
 
+# Docs build output
+site/
+
 # Tooling caches
 .pytest_cache/
 .mypy_cache/

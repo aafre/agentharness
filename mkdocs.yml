@@ -1,0 +1,95 @@
+site_name: AgentHarness
+site_url: https://aafre.github.io/agentharness/
+repo_url: https://github.com/aafre/agentharness
+repo_name: aafre/agentharness
+docs_dir: docs
+site_dir: site
+exclude_docs: |
+  superpowers/**
+  codex-task-*.md
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.instant
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets:
+      base_path: .
+      check_paths: true
+  - pymdownx.highlight
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - markdown-exec
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - packages/agentharness-core/src
+            - packages/agentharness/src
+            - packages/agentharness-contrib/src
+          options:
+            show_source: true
+            show_signature: true
+            show_signature_annotations: true
+
+hooks:
+  - scripts/build_llms_full.py
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Install: getting-started/install.md
+      - Your first run: getting-started/first-run.md
+      - Record & replay: getting-started/record-replay.md
+  - Core concepts:
+      - The thesis: concepts/thesis.md
+      - State & events: concepts/state-and-events.md
+      - Effects & the runner: concepts/effects-and-runner.md
+      - Determinism kit: concepts/determinism-kit.md
+  - Cookbook:
+      - Cookbook: cookbook/index.md
+      - Unit-test an agent: cookbook/unit-test-agent.md
+      - Record and replay offline: cookbook/record-replay-offline.md
+      - Catch a regression: cookbook/catch-regression.md
+      - Define a tool with @tool: cookbook/define-tool.md
+      - Multi-step tool use: cookbook/multi-step-tool-use.md
+      - Inspect the event log: cookbook/inspect-event-log.md
+      - Swap providers: cookbook/swap-providers.md
+      - Run async: cookbook/run-async.md
+      - Persist and diff traces: cookbook/persist-diff-traces.md
+      - Bring your own model: cookbook/bring-your-own-model.md
+  - Providers:
+      - Anthropic: providers/anthropic.md
+  - Guides:
+      - Testing agents: guides/testing-agents.md
+      - Tools with @tool: guides/tools.md
+  - Reference:
+      - Core: reference/core.md
+      - AgentHarness: reference/agentharness.md
+      - Contrib: reference/contrib.md

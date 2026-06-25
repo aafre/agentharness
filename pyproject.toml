@@ -21,6 +21,12 @@ dev = [
     "mypy>=1.10",
     "ruff>=0.5",
 ]
+docs = [
+    "markdown-exec>=1.11",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.25",
+    "pymdown-extensions>=10.8",
+]
 
 [tool.ruff]
 line-length = 100

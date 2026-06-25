@@ -1,0 +1,51 @@
+# AgentHarness
+
+> AgentHarness is a Python agent harness built around deterministic state machines,
+> inspectable event streams, and offline replay.
+
+## Home
+
+- [Home](https://aafre.github.io/agentharness/): pitch, 30-second why, and a FakeModel quickstart.
+
+## Getting started
+
+- [Install](https://aafre.github.io/agentharness/getting-started/install/): install targets, source workflow, and optional provider extras.
+- [Your first run](https://aafre.github.io/agentharness/getting-started/first-run/): FakeModel, State.start, run, event iteration, and result inspection.
+- [Record & replay](https://aafre.github.io/agentharness/getting-started/record-replay/): save a trace, replay offline, and understand DivergenceError.
+
+## Core concepts
+
+- [The thesis](https://aafre.github.io/agentharness/concepts/thesis/): decide, perform, reduce, and why purity buys production properties.
+- [State & events](https://aafre.github.io/agentharness/concepts/state-and-events/): immutable data algebra and JSON round-trips.
+- [Effects & the runner](https://aafre.github.io/agentharness/concepts/effects-and-runner/): where impure work happens and what gets recorded.
+- [Determinism kit](https://aafre.github.io/agentharness/concepts/determinism-kit/): Trace, replay, and divergence.
+
+## Cookbook
+
+- [Cookbook](https://aafre.github.io/agentharness/cookbook/): index of task-oriented recipes.
+- [Unit-test an agent](https://aafre.github.io/agentharness/cookbook/unit-test-agent/): FakeModel with assertion helpers.
+- [Record and replay offline](https://aafre.github.io/agentharness/cookbook/record-replay-offline/): trace persistence and offline replay.
+- [Catch a regression](https://aafre.github.io/agentharness/cookbook/catch-regression/): use DivergenceError as a behavior-change alarm.
+- [Define a tool with @tool](https://aafre.github.io/agentharness/cookbook/define-tool/): schema generation from Python type hints.
+- [Multi-step tool use](https://aafre.github.io/agentharness/cookbook/multi-step-tool-use/): model tool call, tool result, final answer.
+- [Inspect the event log](https://aafre.github.io/agentharness/cookbook/inspect-event-log/): stream typed run events.
+- [Swap providers](https://aafre.github.io/agentharness/cookbook/swap-providers/): keep agent code stable across model adapters.
+- [Run async](https://aafre.github.io/agentharness/cookbook/run-async/): async run and stream APIs.
+- [Persist and diff traces](https://aafre.github.io/agentharness/cookbook/persist-diff-traces/): traces as plain JSONL artifacts.
+- [Bring your own model](https://aafre.github.io/agentharness/cookbook/bring-your-own-model/): implement the Model protocol.
+
+## Providers
+
+- [Anthropic](https://aafre.github.io/agentharness/providers/anthropic/): AnthropicModel usage behind an optional extra; illustrative only.
+
+## Guides
+
+- [Testing agents](https://aafre.github.io/agentharness/guides/testing-agents/): FakeModel, assertions, and a pytest-shaped example.
+- [Tools with @tool](https://aafre.github.io/agentharness/guides/tools/): tool schema generation and direct callability.
+
+## Reference
+
+- [Core API](https://aafre.github.io/agentharness/reference/core/): mkdocstrings reference for agentharness_core.
+- [AgentHarness API](https://aafre.github.io/agentharness/reference/agentharness/): mkdocstrings reference for agentharness.
+- [Contrib API](https://aafre.github.io/agentharness/reference/contrib/): mkdocstrings reference for agentharness_contrib.
+
