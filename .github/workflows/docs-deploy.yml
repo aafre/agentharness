@@ -34,10 +34,9 @@ jobs:
       - name: Build docs
         run: uv run mkdocs build --strict
       - name: Configure Pages
+        # First-time Pages enablement is a one-time manual step (Settings -> Pages ->
+        # Source = GitHub Actions); the default Actions token cannot create the Pages site.
         uses: actions/configure-pages@v5
-        with:
-          # Enable Pages via the API on first run, so no manual repo-settings click is needed.
-          enablement: true
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
