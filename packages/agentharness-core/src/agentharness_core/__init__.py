@@ -43,7 +43,7 @@ from .types import (
     Usage,
 )
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 
 __all__ = [  # noqa: RUF022 - grouped by concept for readability, not alphabetized
     # driver

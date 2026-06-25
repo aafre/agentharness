@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agentharness-core"
-version = "0.0.1"
+version = "0.1.0"
 description = "Zero-dependency deterministic core for AgentHarness: an agent run as an inspectable, replayable state machine."
 readme = "README.md"
 requires-python = ">=3.12"

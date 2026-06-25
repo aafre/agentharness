@@ -51,7 +51,7 @@ provides-extras = ["anthropic", "openai"]
 
 [[package]]
 name = "agentharness-core"
-version = "0.0.1"
+version = "0.1.0"
 source = { editable = "packages/agentharness-core" }
 
 [[package]]
