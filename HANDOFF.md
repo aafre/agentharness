@@ -3,7 +3,18 @@
 > Read `CLAUDE.md` first (the working agreement), then this file (what's actually done
 > and what's next). Update this file before every stop/handoff.
 
-**Last updated:** 2026-06-24 (post-hardening)
+**Last updated:** 2026-06-25 (public repo + CI green)
+
+## Live: public on GitHub, CI green
+
+- Repo: **https://github.com/aafre/agentharness** (public, default branch `main`).
+- Full history pushed (6 commits). **Not** published to PyPI yet (awaiting explicit approval).
+- GitHub Actions CI is **green** on the full matrix (3.12/3.13 × Linux/macOS/Windows)
+  plus `build distributions`. Fixed in `2ef44e1`: in a uv workspace `uv build <path>`
+  writes to the workspace-root `dist/`, so both `ci.yml` and `release.yml` now pin
+  `-o packages/agentharness-core/dist` for the twine-check / upload / publish steps.
+- Known non-fatal CI annotation: actions/checkout@v4 + setup-uv@v5 still run on Node 20
+  (deprecation warning only). Optional follow-up: bump to checkout@v5.
 
 ## Current status: `agentharness-core` implemented, hardened, and green
 
