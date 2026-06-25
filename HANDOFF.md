@@ -3,7 +3,7 @@
 > Read `CLAUDE.md` first (the working agreement), then this file (what's actually done
 > and what's next). Update this file before every stop/handoff.
 
-**Last updated:** 2026-06-25 (docs site live in repo; ponytail cleanup; CI green)
+**Last updated:** 2026-06-25 (OpenAI + Ollama providers added; green gate green)
 
 ## Adoption switches
 
@@ -86,9 +86,11 @@ docs/                         # mkdocs-material site, cookbook, llms.txt
 
 ## Next step (single most useful thing)
 
-Core + ergonomic layer + the first real provider are done, and the docs site + cookbook are
-implemented. **Next:** enable GitHub Pages in repo settings, then build OpenAI/Ollama
-providers, then prep the first PyPI release (needs user approval).
+Core + ergonomic layer + three providers (Anthropic, OpenAI, Ollama) are done; core is live
+on PyPI; docs site + cookbook are live. **Next:** the launch/announcement post (the prior
+`launch-draft.md` lived in an old session scratchpad and is gone — recreate it). After that:
+common contrib tools, then bump `agentharness`/`agentharness-contrib` for their own PyPI
+releases.
 
 ### `agentharness` (ergonomic layer) — DONE
 - `@tool` decorator: JSON schema generated from type hints; tool stays directly callable.
@@ -97,14 +99,20 @@ providers, then prep the first PyPI release (needs user approval).
 - `agentharness.testing`: `FakeModel` + `assert_used_tool`/`assert_answer`.
 - 14 tests; `examples/agent_quickstart.py` runs + replays identically.
 
-### `agentharness-contrib` (providers) — STARTED
+### `agentharness-contrib` (providers) — Anthropic + OpenAI + Ollama
 - `AnthropicModel` maps the core `Model` protocol onto Anthropic's Messages API
   (default `claude-opus-4-8`); SDK is a lazy, optional extra (`[anthropic]`).
-- Pure SDK-free translation (`_split_messages`/`_to_anthropic_tool`/`_to_model_response`),
-  unit-tested with a fake client + a full run through the core loop — 5 tests, zero network.
-- Core change: the runner now injects neutral tool descriptors `{name, description, schema}`
+- `OpenAIModel` maps onto OpenAI's Chat Completions API (default `gpt-4o`), `[openai]` extra.
+  `OllamaModel` is a ~5-line `OpenAIModel` subclass with Ollama defaults
+  (`base_url=http://localhost:11434/v1`, dummy key) — Ollama's `/v1` shim *is* the OpenAI
+  wire format, so it's one translation layer, not two. Gotcha handled: OpenAI tool-call
+  args are a JSON **string** (`json.dumps`/`json.loads`), unlike Anthropic's dict.
+- All providers: pure SDK-free translation (`_to_*` helpers) + a thin class with a lazy SDK
+  import, unit-tested via a fake client + a full run through the core loop, zero network.
+  (Anthropic: 7 tests, OpenAI/Ollama: 7 tests.)
+- Core change: the runner injects neutral tool descriptors `{name, description, schema}`
   into `ModelRequest.tools` (recorded effect stays schema-free, so replay is unaffected).
-- TODO: OpenAI (`[openai]`) + Ollama/OpenAI-compatible providers; common tools.
+- TODO: common tools (separate task).
 
 ## Roadmap / backlog (ordered)
 
